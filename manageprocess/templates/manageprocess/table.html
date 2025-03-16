@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Process Manager</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .group-header {
+            background-color: #e9ecef;
+            cursor: pointer;
+        }
+
+        .group-header td {
+            font-weight: bold;
+        }
+
+        .collapsed + tr:not(.group-header) {
+            display: none;
+        }
+
+        button {
+            padding: 4px 8px;
+            margin: 2px;
+            cursor: pointer;
+        }
+
+        .add-remove-btn {
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Process Name</th>
+                <th>Env</th>
+                <th>Report</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        
+        {% for group in groups %}
+        <tbody class="group">
+            <tr class="group-header" onclick="toggleGroup(this)">
+                <td colspan="4">
+                    {{ group.name }}
+                    <button class="add-remove-btn">Add/Remove Process</button>
+                </td>
+            </tr>
+            
+            {% for process in group.processes %}
+            <tr class="process-row">
+                <td>{{ process.name }}</td>
+                <td>{{ process.env }}</td>
+                <td><a href="{{ process.report_link }}">Report</a></td>
+                <td>
+                    <button class="action-btn">start/stop</button>
+                    <button class="action-btn">show</button>
+                    <button class="action-btn">log</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        {% endfor %}
+    </table>
+
+    <script>
+        function toggleGroup(element) {
+            const tbody = element.parentElement;
+            tbody.classList.toggle('collapsed');
+            
+            // Toggle process rows
+            const processRows = tbody.querySelectorAll('.process-row');
+            processRows.forEach(row => {
+                row.style.display = tbody.classList.contains('collapsed') ? 'none' : 'table-row';
+            });
+        }
+    </script>
+</body>
+</html>

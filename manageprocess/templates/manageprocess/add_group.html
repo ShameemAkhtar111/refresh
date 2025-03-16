@@ -1,0 +1,13 @@
+{% extends 'manageprocess/base.html' %}
+{% block title %}Add group{% endblock %}
+{% block content %}
+    <form>
+        {%csrf_token%}
+        <fieldset>
+            <legend><h1>Group Info</h1></legend>
+            <label for="groupname">Group Name</label>
+            <input id="groupname", name="gname">
+        </fieldset>
+        <input type="submit" value="Add Group">
+    </form>
+{% endblock %}
