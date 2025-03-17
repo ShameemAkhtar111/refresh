@@ -1,17 +1,22 @@
 from django.shortcuts import render
 from .forms import GroupForm
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
+from .models import PGroup
 
 # Create your views here.
 def index(request):
-    return render(request,"manageprocess/index.html")
+    grps = PGroup.objects.all()
+    return render(request,"manageprocess/index.html", {"groups": grps} )
 
-def form_render(request):
+def add_group(request):
     if request.method == "POST":
         gf = GroupForm(request.POST)
         if gf.is_valid():
-            print(gf.cleaned_data)
+            # grp = PGroup(group_name=gf.cleaned_data['group_name'])
+            # grp.save()
+            # print(gf.cleaned_data)
+            gf.save()
             return HttpResponseRedirect(reverse("process:successf"))
 
     else:
@@ -19,4 +24,7 @@ def form_render(request):
     return render(request, "manageprocess/form_data.html", {"form":gf})
 
 def success_form_submit(request):
-    return render(request,"manageprocess/index.html")
+    return render(request,"manageprocess/thankyou.html")
+
+def login(request):
+    return HttpResponse("Login")

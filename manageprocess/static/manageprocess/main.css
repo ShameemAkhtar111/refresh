@@ -1,0 +1,74 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #2c3e50;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.header-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+/* Table Styles (existing) */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.group-header {
+    background-color: #e9ecef;
+    cursor: pointer;
+}
+
+.group-header td {
+    font-weight: bold;
+}
+
+.collapsed + tr:not(.group-header) {
+    display: none;
+}
+
+button {
+    padding: 4px 8px;
+    margin: 2px;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+}
+
+.add-remove-btn {
+    float: right;
+    background-color: #3498db;
+    color: white;
+}
+
+.login-btn {
+    background-color: #27ae60;
+    color: white;
+}
+
+.header-btn {
+    background-color: #e67e22;
+    color: white;
+    padding: 8px 15px;
+}
