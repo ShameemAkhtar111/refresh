@@ -5,7 +5,8 @@ app_name="process"
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("formf/", views.add_group, name="add_group"),
+    path("addgroup/", views.add_group, name="add_group"),
     path("success/", views.success_form_submit, name="successf"),
+    path("addprocess/<str:group_name>", views.add_process, name="add_process"),
     path("login/", views.login, name='login')
 ]

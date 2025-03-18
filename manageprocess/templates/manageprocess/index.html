@@ -1,6 +1,7 @@
 {% extends 'manageprocess/base.html' %}
 {% load static %}
-{% block style %} <link rel="stylesheet" href="{% static 'manageprocess/main.css' %}"> {% endblock %}
+{% block style %} <link rel="stylesheet" href="{% static 'manageprocess/main.css' %}"> 
+<link rel="stylesheet" href="{% static 'stylesheets/bootstrap.css' %}"> {% endblock %}
 {% block title %}Processes Manager{% endblock %}
 {% block content %}
     <!-- Top Banner -->
@@ -19,6 +20,8 @@
                 <th>Process Name</th>
                 <th>Env</th>
                 <th>Report</th>
+                <th>State</th>
+                <th>Last Run</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -26,17 +29,19 @@
         {% for group in groups %}
         <tbody class="group">
             <tr class="group-header" onclick="toggleGroup(this)">
-                <td colspan="4">
+                <td colspan="6">
                     {{ group.group_name }}
-                    <button class="add-remove-btn">Add/Remove Process</button>
+                    <button class="add-remove-btn" onclick="location.href='{% url 'process:add_process'  group.group_name  %}'">Add/Remove Process</button>
                 </td>
             </tr>
             
-            {% for process in group.processes %}
+            {% for process in group.process_set.all %}
             <tr class="process-row">
-                <td>{{ process.name }}</td>
-                <td>{{ process.env }}</td>
-                <td><a href="{{ process.report_link }}">Report</a></td>
+                <td>{{ process.process_name }}</td>
+                <td>{{ process.process_env }}</td>
+                <td><a href="{{ process.report_link }}">{{ process.process_report }}</a></td>
+                <td>{{ process.process_state }}</td>
+                <td>{{ process.process_last_run }}</td>
                 <td>
                     <button class="action-btn">start/stop</button>
                     <button class="action-btn">show</button>

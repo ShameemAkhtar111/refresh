@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import GroupForm
+from .forms import GroupForm, ProcessForm
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from .models import PGroup
@@ -28,3 +28,13 @@ def success_form_submit(request):
 
 def login(request):
     return HttpResponse("Login")
+
+def add_process(request, group_name):
+    if request.method == "POST":
+        pf = ProcessForm(request.POST)
+        if pf.is_valid():
+            pf.save()
+            return HttpResponseRedirect(reverse("process:index"))
+    else:
+        pf = ProcessForm()
+    return render(request, "manageprocess/add_process.html", {"form":pf})
