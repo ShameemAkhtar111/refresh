@@ -2,11 +2,12 @@ from django.db.models import F
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
+from django.views import generic
 # from django.template import loader
 from .models import Question, Choice
 
 
-# Create your views here.
+# Version 1
 # def index(request):
 #     latest_ques_list = Question.objects.order_by("-pub_date")[:5]
 #     template = loader.get_template("polls/index.html")
@@ -14,11 +15,20 @@ from .models import Question, Choice
 #     # output = ", ".join([q.question_text for q in latest_ques_list])
 #     return HttpResponse(template.render(context, request))
 
-def index(request):
-    latest_ques_list = Question.objects.order_by("-pub_date")[:5]
-    context = {"latest_ques_list": latest_ques_list}
-    return render(request, "polls/index.html", context)
+# Version 2
+# def index(request):
+#     latest_ques_list = Question.objects.order_by("-pub_date")[:5]
+#     context = {"latest_ques_list": latest_ques_list}
+#     return render(request, "polls/index.html", context)
 
+class IndexView(generic.ListView):
+    template_name = "polls/index.html"
+    context_object_name = "latest_ques_list"
+
+    def get_queryset(self):
+        return Question.objects.order_by("-pub_date")[:5]
+
+# Version 1
 # def detail(request, question_id):
 #     try:
 #         q = Question.objects.get(pk=id)
@@ -26,13 +36,23 @@ def index(request):
 #         raise Http404("Question does not exist")
 #     return render(request, "polls/detail.html", {"question":q})
 
-def detail(request, question_id):
-    q = get_object_or_404(Question, pk=question_id)
-    return render(request, "polls/detail.html", {"question":q})
+# Version 2
+# def detail(request, question_id):
+#     q = get_object_or_404(Question, pk=question_id)
+#     return render(request, "polls/detail.html", {"question":q})
 
-def results(request, question_id):
-    ques = get_object_or_404(Question, pk=question_id)
-    return render(request, "polls/results.html", {"question": ques})
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = "polls/detail.html"
+
+# Version 1
+# def results(request, question_id):
+#     ques = get_object_or_404(Question, pk=question_id)
+#     return render(request, "polls/results.html", {"question": ques})
+
+class ResultsView(generic.DeleteView):
+    model = Question
+    template_name = "polls/results.html"
 
 def vote(request, question_id):
     ques = get_object_or_404(Question, pk=question_id)
