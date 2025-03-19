@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.views import generic
 # from django.template import loader
 from .models import Question, Choice
+from django.utils import timezone
 
 
 # Version 1
@@ -26,7 +27,7 @@ class IndexView(generic.ListView):
     context_object_name = "latest_ques_list"
 
     def get_queryset(self):
-        return Question.objects.order_by("-pub_date")[:5]
+        return Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
 
 # Version 1
 # def detail(request, question_id):
@@ -44,6 +45,11 @@ class IndexView(generic.ListView):
 class DetailView(generic.DetailView):
     model = Question
     template_name = "polls/detail.html"
+    """
+        Excludes any questions that aren't published yet.
+    """
+    def get_queryset(self):
+        return Question.objects.filter(pub_date__lte=timezone.now())
 
 # Version 1
 # def results(request, question_id):
