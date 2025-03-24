@@ -1,3 +1,5 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'polls/style.css' %}">
 {% if latest_ques_list %}
 <ul>
     {% for ques in latest_ques_list %}
